@@ -66,6 +66,15 @@ app.add_middleware(
 
 @app.middleware("http")
 async def fix_vercel_rewrites(request: Request, call_next):
+    # Local dev: serve real static files (/, /impulse.html, /style.css ...) untouched. On Vercel the platform serves them.
+    raw_path = request.scope.get("path", "")
+    if not request.query_params.get("path") and not raw_path.startswith("/api"):
+        rel = raw_path.lstrip("/") or "index.html"
+        if os.path.isfile(os.path.join(PROJECT_ROOT, "public", rel)):
+            response = await call_next(request)
+            response.headers["Cache-Control"] = "no-cache"   # local dev: always revalidate so edits show up on refresh
+            return response
+
     # 1. Check query parameter 'path' passed by vercel rewrite: /api/index.py?path=...
     target_path = request.query_params.get("path")
 
@@ -99,6 +108,8 @@ async def fix_vercel_rewrites(request: Request, call_next):
 
 
 from fastapi.staticfiles import StaticFiles
+from src.impulse.routes import router as impulse_router
+app.include_router(impulse_router)
 public_dir = os.path.join(PROJECT_ROOT, "public")
 if os.path.exists(public_dir):
     app.mount("/static", StaticFiles(directory=public_dir), name="static")

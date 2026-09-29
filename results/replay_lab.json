@@ -1,0 +1,230 @@
+{
+ "config": {
+  "cases_per_world": 1200,
+  "worlds": 5,
+  "holdout_pct": 10.0,
+  "weeks": 12
+ },
+ "policies": {
+  "baseline": {
+   "recovery_rate": {
+    "mean": 0.4551,
+    "lo": 0.4236,
+    "hi": 0.4865
+   },
+   "involuntary_churn_rate": {
+    "mean": 0.2952,
+    "lo": 0.2835,
+    "hi": 0.3068
+   },
+   "recovered_inr": 833087.07,
+   "churn_loss_inr": 8003611.82,
+   "net_value_inr": -7170524.76,
+   "retries_per_recovery": 5.24,
+   "weekly_cumulative_rate": [
+    0.4738,
+    0.4452,
+    0.4335,
+    0.4441,
+    0.4716,
+    0.4599,
+    0.4519,
+    0.458,
+    0.4712,
+    0.4676,
+    0.4604,
+    0.4551
+   ]
+  },
+  "rules": {
+   "recovery_rate": {
+    "mean": 0.7053,
+    "lo": 0.6873,
+    "hi": 0.7232
+   },
+   "involuntary_churn_rate": {
+    "mean": 0.1445,
+    "lo": 0.1367,
+    "hi": 0.1523
+   },
+   "recovered_inr": 1291643.94,
+   "churn_loss_inr": 3981684.91,
+   "net_value_inr": -2690040.97,
+   "retries_per_recovery": 1.7,
+   "weekly_cumulative_rate": [
+    0.6725,
+    0.6914,
+    0.6955,
+    0.7166,
+    0.7186,
+    0.7111,
+    0.7087,
+    0.7142,
+    0.7172,
+    0.714,
+    0.7096,
+    0.7053
+   ]
+  },
+  "frozen": {
+   "recovery_rate": {
+    "mean": 0.7053,
+    "lo": 0.6914,
+    "hi": 0.7193
+   },
+   "involuntary_churn_rate": {
+    "mean": 0.0848,
+    "lo": 0.079,
+    "hi": 0.0906
+   },
+   "recovered_inr": 1292214.61,
+   "churn_loss_inr": 2347940.98,
+   "net_value_inr": -1055726.36,
+   "retries_per_recovery": 0.88,
+   "weekly_cumulative_rate": [
+    0.6747,
+    0.7047,
+    0.7161,
+    0.7154,
+    0.7081,
+    0.7081,
+    0.7081,
+    0.709,
+    0.7079,
+    0.7082,
+    0.7072,
+    0.7053
+   ]
+  },
+  "impulse": {
+   "recovery_rate": {
+    "mean": 0.7297,
+    "lo": 0.7055,
+    "hi": 0.7538
+   },
+   "involuntary_churn_rate": {
+    "mean": 0.1022,
+    "lo": 0.0902,
+    "hi": 0.1142
+   },
+   "recovered_inr": 1336059.87,
+   "churn_loss_inr": 2798585.28,
+   "net_value_inr": -1462525.41,
+   "retries_per_recovery": 1.48,
+   "weekly_cumulative_rate": [
+    0.7037,
+    0.7318,
+    0.7396,
+    0.7392,
+    0.7374,
+    0.7342,
+    0.7295,
+    0.7284,
+    0.728,
+    0.7299,
+    0.7289,
+    0.7297
+   ]
+  }
+ },
+ "disclosure": "Simulated world: ground truth encodes our own assumptions about retry behaviour. The mechanism (a bandit that learns from outcomes, measured against a holdout) is real; absolute numbers will differ on your data.",
+ "lift": {
+  "recovery_rate_pts": {
+   "mean": 27.46,
+   "lo": 24.97,
+   "hi": 29.95
+  },
+  "relative_pct": 60.3,
+  "extra_recovered_inr": 502972.8,
+  "churn_loss_avoided_inr": 5205026.54,
+  "vs_rules_net_value_inr": 1227515.56,
+  "learning_gain_pts": 2.44,
+  "learning_gain_net_inr": -406799.05
+ },
+ "attribution_check": {
+  "ledger_estimated_incremental_inr": 468155.62,
+  "true_incremental_inr": 502972.8,
+  "note": "Ledger estimate uses the 10% holdout arm as the baseline; 'true' uses the simulated counterfactual for the same treated cases. Agreement shows the attribution method is honest, not just favourable."
+ },
+ "bandit": {
+  "observations_per_world": 1113,
+  "heatmap": {
+   "insufficient_funds": {
+    "start": {
+     "in_2h": 0.08,
+     "next_morning": 0.2,
+     "plus_3d": 0.45,
+     "salary_window": 0.629,
+     "plus_7d": 0.213
+    },
+    "mid": {
+     "in_2h": 0.08,
+     "next_morning": 0.2,
+     "plus_3d": 0.497,
+     "salary_window": 0.659,
+     "plus_7d": 0.256
+    },
+    "end": {
+     "in_2h": 0.08,
+     "next_morning": 0.2,
+     "plus_3d": 0.463,
+     "salary_window": 0.66,
+     "plus_7d": 0.256
+    }
+   },
+   "bank_downtime": {
+    "start": {
+     "in_2h": 0.82,
+     "next_morning": 0.545,
+     "plus_3d": 0.394,
+     "salary_window": 0.267,
+     "plus_7d": 0.311
+    },
+    "mid": {
+     "in_2h": 0.803,
+     "next_morning": 0.519,
+     "plus_3d": 0.356,
+     "salary_window": 0.24,
+     "plus_7d": 0.315
+    },
+    "end": {
+     "in_2h": 0.784,
+     "next_morning": 0.526,
+     "plus_3d": 0.409,
+     "salary_window": 0.267,
+     "plus_7d": 0.313
+    }
+   },
+   "limit_exceeded": {
+    "start": {
+     "in_2h": 0.1,
+     "next_morning": 0.253,
+     "plus_3d": 0.245,
+     "salary_window": 0.379,
+     "plus_7d": 0.196
+    },
+    "mid": {
+     "in_2h": 0.1,
+     "next_morning": 0.234,
+     "plus_3d": 0.257,
+     "salary_window": 0.391,
+     "plus_7d": 0.176
+    },
+    "end": {
+     "in_2h": 0.1,
+     "next_morning": 0.276,
+     "plus_3d": 0.336,
+     "salary_window": 0.38,
+     "plus_7d": 0.196
+    }
+   }
+  },
+  "arms": {
+   "in_2h": "in 2 hours",
+   "next_morning": "next morning 10:00",
+   "plus_3d": "in 3 days",
+   "salary_window": "next salary window (1st\u20135th)",
+   "plus_7d": "in 7 days"
+  }
+ }
+}

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Secure payment page</title>
+  <style>
+    :root { color-scheme: light dark; --bg:#f6f7f9; --card:#fff; --ink:#0f172a; --mut:#64748b; --brand:#4f46e5; --line:#e4e7ec; }
+    @media (prefers-color-scheme: dark) { :root { --bg:#0d0f14; --card:#161a22; --ink:#f2f4f8; --mut:#9aa3b2; --brand:#8f8aff; --line:#2a303c; } }
+    body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.5 Inter,-apple-system,Segoe UI,sans-serif; display:flex; justify-content:center; padding:16px; }
+    .card { background:var(--card); border:1px solid var(--line); border-radius:16px; padding:22px; width:100%; max-width:420px; margin-top:24px; }
+    h1 { font-size:20px; margin:0 0 6px; } p { color:var(--mut); margin:0 0 16px; }
+    button { width:100%; font:inherit; font-weight:600; padding:14px; border-radius:12px; border:1px solid var(--line); background:var(--card); color:var(--ink); margin-top:10px; cursor:pointer; }
+    button.primary { background:var(--brand); border-color:var(--brand); color:#fff; }
+    input { width:100%; box-sizing:border-box; font:inherit; padding:12px; border-radius:10px; border:1px solid var(--line); background:var(--card); color:var(--ink); margin-top:8px; }
+    .amt { font-size:30px; font-weight:700; letter-spacing:-.02em; margin:6px 0 14px; } small { color:var(--mut); display:block; margin-top:14px; text-align:center; }
+  </style>
+</head>
+<body>
+  <div class="card" id="c">Loading…</div>
+  <script>
+    const id = new URLSearchParams(location.search).get('case');
+    const c = document.getElementById('c');
+    const inr = (n) => '₹' + Math.round(n).toLocaleString('en-IN');
+    const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (m) => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m]));
+    async function act(choice, otp) {
+      const r = await fetch('/api/impulse/hosted/' + encodeURIComponent(id), { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ choice, otp }) });
+      const j = await r.json();
+      if (!r.ok) { alert(j.detail || 'Something went wrong'); return; }
+      c.innerHTML = '<h1>All set ✓</h1><p>Thank you. Your choice has been recorded.</p><small>Demo page: no real payment was taken.</small>';
+    }
+    (async () => {
+      if (!id) { c.textContent = 'This link is missing its reference.'; return; }
+      const r = await fetch('/api/impulse/hosted/' + encodeURIComponent(id));
+      if (!r.ok) { c.textContent = 'This link has expired.'; return; }
+      const v = await r.json();
+      if (v.page === 'pause_or_downgrade') {
+        c.innerHTML = `<h1>Hi ${esc(v.customer_name)}, need a break?</h1><p>Instead of losing your account, pick what suits you.</p>
+          <button class="primary" id="p">Pause my plan</button><button id="d">Switch to a lighter plan</button><button id="k">Keep things as they are</button>`;
+        document.getElementById('p').onclick = () => act('pause'); document.getElementById('d').onclick = () => act('downgrade'); document.getElementById('k').onclick = () => act('keep');
+      } else if (v.page === 'otp') {
+        c.innerHTML = `<h1>Confirm your order</h1><p>Enter the 6-digit code we sent you (demo code: 123456).</p><input id="o" inputmode="numeric" maxlength="6" placeholder="123456"><button class="primary" id="go">Confirm order</button>`;
+        document.getElementById('go').onclick = () => act('otp', document.getElementById('o').value);
+      } else {
+        c.innerHTML = `<h1>Update your payment</h1><p>Hi ${esc(v.customer_name)}, your payment didn't go through.</p><div class="amt">${inr(v.amount)}</div>${v.incentive ? `<p>Pay online now and save ${inr(v.incentive)}.</p>` : ''}
+          <button class="primary" id="u">Pay with UPI</button><button id="cd">Use a different card</button><small>Secured by Impulse · demo page</small>`;
+        document.getElementById('u').onclick = () => act('pay_upi'); document.getElementById('cd').onclick = () => act('pay_card');
+      }
+    })();
+  </script>
+</body>
+</html>

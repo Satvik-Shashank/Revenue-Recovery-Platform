@@ -2,7 +2,8 @@
 
 #  Impulse
 
-### Chargeback Intelligence & Auto-Resolution Platform
+### Revenue Recovery Platform
+*Failed payments · Clawbacks · Churn · Missed billing. One decision engine. Paid only when you recover.*
 
 **Classify. Verify. Decide. Recover.**
 

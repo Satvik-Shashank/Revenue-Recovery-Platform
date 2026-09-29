@@ -4,10 +4,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Impulse — Autonomous Dispute Defense Platform</title>
+  <title>Impulse: Revenue Recovery Platform</title>
   <meta name="description"
-    content="Autonomous chargeback defense platform with cost-sensitive calibrated confidence and deterministic evidence retrieval">
+    content="Impulse recovers revenue across four leaks: failed payments, clawbacks, churn and missed billing, on one decision engine">
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="platform.css?v=1790697355">
+  <link rel="stylesheet" href="motion.css?v=1790697355">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 </head>
 
@@ -18,19 +20,15 @@
     <header class="navbar">
       <div class="nav-brand">
         <div class="brand-name">Impulse</div>
-        <div class="brand-subtitle">Autonomous Dispute Defense</div>
+        <div class="brand-subtitle">Revenue Recovery Platform</div>
       </div>
 
       <!-- Tab Navigation -->
-      <nav class="tabs-nav">
-        <button class="tab-btn active" onclick="switchTab('home', this)">Home</button>
-        <button class="tab-btn" onclick="switchTab('performance', this)">Model Performance</button>
-        <button class="tab-btn" onclick="switchTab('cases', this)">Case Explorer</button>
-        <button class="tab-btn" onclick="switchTab('monitoring', this)">Monitoring</button>
-        <button class="tab-btn" onclick="switchTab('guardrails', this)">Guardrails</button>
-        <button class="tab-btn" onclick="switchTab('overview', this)">Overview</button>
-      </nav>
+      <nav class="tabs-nav" id="mainnav" aria-label="Main"></nav>
     </header>
+    <div id="subnav" class="subnav"></div>
+    <div id="subnav2" class="subnav2"></div>
+    <section id="tab-platform" class="tab-panel active"><div id="platform-root"></div></section>
     <div id="byod-global-banner" class="card" style="display:none; margin:12px auto; max-width:1200px; background:var(--bg-surface-subtle);">
       <strong id="byod-global-banner-text"></strong>
       <button class="btn-secondary" onclick="deleteByod()">Delete uploaded data</button>
@@ -39,7 +37,7 @@
     <!-- ═══════════════════════════════════════════════════════════════
          TAB 1: HOME (HERO + SPECIFICATION BOX + LIVE ANALYZER)
          ═══════════════════════════════════════════════════════════════ -->
-    <main id="tab-home" class="tab-panel active">
+    <main id="tab-home" class="tab-panel">
       <!-- Signature Flowing Silk Stripe Ribbon (Textured SVG Layers) -->
       <div class="stripe-pulsing-ribbon">
         <svg class="flowing-silk-svg" viewBox="0 0 1600 700" fill="none" preserveAspectRatio="none"
@@ -51,14 +49,14 @@
               <stop offset="100%" stop-color="#EC4899" stop-opacity="0.8" />
             </linearGradient>
             <linearGradient id="silk-grad-2" x1="10%" y1="10%" x2="90%" y2="90%">
-              <stop offset="0%" stop-color="#EC4899" stop-opacity="0.95" />
-              <stop offset="50%" stop-color="#FF5436" stop-opacity="0.98" />
-              <stop offset="100%" stop-color="#FF8800" stop-opacity="0.9" />
+              <stop offset="0%" stop-color="#F0508C" stop-opacity="1" />
+              <stop offset="50%" stop-color="#FF5436" stop-opacity="1" />
+              <stop offset="100%" stop-color="#FF8800" stop-opacity="1" />
             </linearGradient>
             <linearGradient id="silk-grad-3" x1="20%" y1="0%" x2="80%" y2="100%">
-              <stop offset="0%" stop-color="#FF5436" stop-opacity="0.95" />
-              <stop offset="45%" stop-color="#FF8800" stop-opacity="0.98" />
-              <stop offset="100%" stop-color="#FFAE19" stop-opacity="0.85" />
+              <stop offset="0%" stop-color="#FF5436" stop-opacity="1" />
+              <stop offset="45%" stop-color="#FF8800" stop-opacity="1" />
+              <stop offset="100%" stop-color="#FFAE19" stop-opacity="1" />
             </linearGradient>
             <linearGradient id="silk-grad-sheen" x1="0%" y1="0%" x2="100%" y2="50%">
               <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.4" />
@@ -78,12 +76,12 @@
           <!-- Curved Layer 2: Folded Magenta/Pink Translucent Silk -->
           <path class="silk-wave-layer layer-2"
             d="M0,120 C350,80 650,340 950,220 C1250,100 1450,290 1600,240 L1600,680 C1320,620 1020,480 720,600 C420,720 180,520 0,640 Z"
-            fill="url(#silk-grad-2)" opacity="0.88" />
+            fill="url(#silk-grad-2)" opacity="1" />
 
           <!-- Curved Layer 3: Radiant Sunset Orange & Amber Silk Crest -->
           <path class="silk-wave-layer layer-3"
-            d="M200,60 C550,20 850,240 1180,140 C1400,70 1520,180 1600,160 L1600,650 C1380,570 1150,440 900,530 C650,620 400,480 200,560 Z"
-            fill="url(#silk-grad-3)" opacity="0.85" />
+            d="M0,70 L200,60 C550,20 850,240 1180,140 C1400,70 1520,180 1600,160 L1600,650 C1380,570 1150,440 900,530 C650,620 400,480 200,560 L0,590 Z"
+            fill="url(#silk-grad-3)" opacity="1" />
 
           <!-- Curved Layer 4: Luminous Sheen Highlight Fold -->
           <path class="silk-wave-layer layer-sheen"
@@ -1239,48 +1237,13 @@
               <span class="footer-logo-text">Impulse</span>
             </div>
 
-            <p class="footer-brand-desc">
-              Intelligent chargeback defense that automatically decides which
-              disputes to fight and which to accept — maximizing recovery while
-              minimizing costs.
-            </p>
+            <p class="footer-brand-desc">Impulse finds every place a business leaks revenue: failed payments, clawbacks, churn and missed billing. It decides the best fix by expected rupee value, and gets paid only when you recover.</p>
           </div>
 
           <!-- Platform -->
           <div class="footer-link-col">
-            <div class="footer-col-title">Platform</div>
-
-            <ul class="footer-links">
-              <li>
-                <a href="#" onclick="switchTab('home', document.querySelector('.tab-btn:nth-child(1)')); return false;">
-                  Live Analyzer
-                </a>
-              </li>
-
-              <li>
-                <a href="#" onclick="switchTab('performance', document.querySelector('.tab-btn:nth-child(2)')); return false;">
-                  Model Performance
-                </a>
-              </li>
-
-              <li>
-                <a href="#" onclick="switchTab('cases', document.querySelector('.tab-btn:nth-child(3)')); return false;">
-                  Case Explorer
-                </a>
-              </li>
-
-              <li>
-                <a href="#" onclick="switchTab('guardrails', document.querySelector('.tab-btn:nth-child(5)')); return false;">
-                  Guardrails & Compliance
-                </a>
-              </li>
-
-              <li>
-                <a href="#" onclick="switchTab('overview', document.querySelector('.tab-btn:nth-child(6)')); return false;">
-                  Overview & Pitch
-                </a>
-              </li>
-            </ul>
+            <div class="footer-col-title">Product</div>
+            <ul class="footer-links"><li><a href="#payments">Payment Recovery</a></li><li><a href="#clawback">Clawback Defense</a></li><li><a href="#retention">Retention Rescue</a></li><li><a href="#billing">Billing &amp; Collections</a></li><li><a href="#dashboard">Dashboard</a></li><li><a href="#audit">Free Leak Audit</a></li></ul>
           </div>
 
           <!-- Technology -->
@@ -1351,7 +1314,7 @@
 
         <div class="footer-bottom">
           <p class="footer-copyright">
-            &copy; 2025 Impulse. All rights reserved.
+            &copy; 2026 Impulse. All rights reserved.
           </p>
 
 
@@ -1362,7 +1325,13 @@
 
   </div> <!-- /.app-wrapper -->
 
+  <div id="overlay"></div>
   <script src="app.js"></script>
+  <script src="ui.js?v=1790697355"></script>
+  <script src="art.js?v=1790697355"></script>
+  <script src="platform.js?v=1790697355"></script>
+  <script src="landing.js?v=1790698280"></script>
+  <script src="guide.js?v=1790697355"></script>
 </body>
 
 </html>
